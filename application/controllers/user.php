@@ -49,7 +49,7 @@ class User extends CI_Controller {
         
         if ($this->form_validation->run() == FALSE)
 		{
-            $this->load->view('view_login');
+            $this->load->view('view_login_iphone');
 		}	
 		else
 		{
@@ -81,7 +81,11 @@ class User extends CI_Controller {
     function add_new_user()
     {
         if(!$this->session->userdata('logged_in'))
+        {
             redirect('user/login');
+            
+        }
+            
         if($this->session->userdata['type'] != 1)
         {
             redirect('user');
@@ -89,7 +93,8 @@ class User extends CI_Controller {
         else
         {
             $this->form_validation->set_rules('username', 'Username', 'required|trim|max_length[50]|xss_clean');
-            $this->form_validation->set_rules('password', 'Password', 'required|trim|max_length[50]|xss_clean');
+            $this->form_validation->set_rules('password', 'Password', 'required|trim|min_length[5]|max_length[50]|xss_clean');
+            $this->form_validation->set_rules('password_retype', 'Retype password', 'required|matches[password]|trim|min_length[5]|max_length[50]|xss_clean');
             
             if ($this->form_validation->run() == FALSE)
             {
@@ -99,11 +104,16 @@ class User extends CI_Controller {
             {
                 extract($this->input->post());
                 echo $username.'<br/>'.$password;
-                $result = $this->User_model->add_user($username, $password);
+                $result = $this->User_model->add_user($username, sha1($password), $type);
                 if($result <= 0)
                 {
                     $this->session->set_flashdata('add_error', TRUE);
                     redirect('user/add_new_user'); 
+                }
+                else
+                {
+                    $this->session->set_flashdata('add_ok', TRUE);
+                    redirect('user/add_new_user');
                 }
             }    
         }    

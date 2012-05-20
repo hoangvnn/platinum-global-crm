@@ -78,13 +78,15 @@
 		padding: 10px;
         text-align: center;
 	}
+    
+    select {height: 12; width: 100; max-height: 12}
 	
 	</style>
 </head>
 <body>
     
 	<div id="login_form"> 
-        <?php echo form_open(site_url() . '/user/add_new_user'); /**<img src="<?php echo base_url()?>/img/image001.jpg" border="1" width="395" />*/ ?>
+        <?php echo form_open(site_url() . 'user/add_new_user'); /**<img src="<?php echo base_url()?>/img/image001.jpg" border="1" width="395" />*/ ?>
         
         <h1>Platinum Global CRM</h1>
 		<center><p> Use the form below to register new user</p></center>
@@ -100,9 +102,28 @@
                     <?php echo form_password(array('id' => 'password', 'name' => 'password', 'size' => 20, 'style' => 'font-size:20px')); ?>
             </li>
             <li>
+                <label>Retype password:</label>
+                    <?php echo form_password(array('id' => 'password_retype', 'name' => 'password_retype', 'size' => 20, 'style' => 'font-size:20px')); ?>
+            </li>
+             <li>
+                <label>Type:</label>
+                <?php
+                    $options = array(
+                      '1'  => 'Expert',
+                      '2'    => 'Normal',
+                    );
+                    $extra = '';
+                    
+                    echo form_dropdown('type', $options, '2', $extra);
+                    
+                ?>
+            </li>
+            <li>
             <?php
                 if ($this->session->flashdata('add_error'))
                     echo 'Failed register';
+                elseif ($this->session->flashdata('add_ok'))
+                    echo 'Register successfully';
                 echo validation_errors(); 
             ?>
 			</li>
