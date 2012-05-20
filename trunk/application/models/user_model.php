@@ -3,9 +3,8 @@
         
         function check_login($username, $password)
         {
-            $sha1_password = $password;
-            $query_str = 'SELECT user_id, type FROM users WHERE username = ? AND password = ?';  
-            $result = $this->db->query($query_str, array($username, $sha1_password));  
+            $query_str = 'SELECT user_id, type FROM users WHERE username = ? AND password = SHA1(?)';  
+            $result = $this->db->query($query_str, array($username, $password));  
             
             if ($result->num_rows() == 1)
             {
@@ -17,12 +16,12 @@
             }
         }
     
-        function add_user($username, $password)
+        function add_user($username, $password, $type)
         {
             $check = $this->db->get_where('users', array('username' => $username));
             if ($check->num_rows() == 0)
             {
-                $this->db->insert('users', array('username' => $username, 'password' => $password, 'type' => 2));
+                $this->db->insert('users', array('username' => $username, 'password' => $password, 'type' => $type));
                 return $this->db->insert_id();    
             } 
             else

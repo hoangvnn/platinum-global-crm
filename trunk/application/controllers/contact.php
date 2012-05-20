@@ -25,20 +25,25 @@ class Contact extends CI_Controller {
         if(!$this->session->userdata('logged_in'))
             redirect('user/login');
         
-        $result = $this->Contact_model->get_contact_list();
-        //print_r($result);
-        foreach ($result as $row)
-        {
-            echo '<a href = "'.site_url() . 'contact/user?id='.$row->contact_id.'">'.$row->name.'<br/>'.'</a>';
-        }
+        $data['list'] = $this->Contact_model->get_contact_list();
+        
+        //foreach ($result as $row)
+//        {
+//            echo '<a href = "'.site_url() . 'contact/user/'.$row->contact_id.'">'.$row->name.'<br/>'.'</a>';
+//        }
+        $this->load->view('view_contacts_list_iphone', $data);
+        
 	}
     
-    function user()
-    {
-        if ($_GET['id'])
+    function user($id)
+    {       
+        if(!$this->session->userdata('logged_in'))
+            redirect('user/login');
+
+        if ($id)
         {
-            $data['contact'] = $this->Contact_model->get_contact($_GET['id']);
-            $this->load->view('view_contact_list', $data);    
+            $data['contact'] = $this->Contact_model->get_contact($id);
+            $this->load->view('view_contact_iphone', $data);    
         }
         else
         {
@@ -46,7 +51,73 @@ class Contact extends CI_Controller {
         }
         
     }
+    
+    function add_contact()
+    {
+        if(!$this->session->userdata('logged_in'))
+        {
+            redirect('user/login');
+            
+        }
+                    
+        if($this->session->userdata['type'] != 1)
+        {
+            redirect('user');
+        }
+        else
+        {
+            echo 'add contact here';
+        }
+    }
+    
+    function edit_contact($id)
+    {
+        if ($id == '' || $id == 0)
+        {
+            redirect('contact');
+        }
         
+        if(!$this->session->userdata('logged_in'))
+        {
+            redirect('user/login');
+            
+        }
+                    
+        if($this->session->userdata['type'] != 1)
+        {
+            redirect('user');
+        }
+        else
+        {
+            $data['contact'] = $this->Contact_model->get_contact($id);
+            $this->load->view('view_edit_contact_iphone', $data);
+        }
+    }
+    
+    function edit_image($id)
+    {
+        if ($id == '' || $id == 0)
+        {
+            redirect('contact');
+        }
+        
+        if(!$this->session->userdata('logged_in'))
+        {
+            redirect('user/login');
+            
+        }
+        
+        if($this->session->userdata['type'] != 1)
+        {
+            redirect('user');
+        }
+        else
+        {
+            $data['contact'] = $this->Contact_model->get_contact($id);
+            $this->load->view('view_edit_image_iphone', $data);
+        }
+        
+    }     
 }
 
 /* End of file user.php */
