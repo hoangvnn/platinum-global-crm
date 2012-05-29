@@ -36,7 +36,8 @@ class Upload extends CI_Controller {
             $data = array('upload_data' => $this->upload->data());
 
             //$this->load->view('upload_success', $data);
-            rename($data['upload_data']['file_path'].$data['upload_data']['file_name'], $data['upload_data']['file_path'].$id.'.png');  
+            rename($data['upload_data']['file_path'].$data['upload_data']['file_name'], $data['upload_data']['file_path'].$id.'.png');
+            redirect('contact/user/'.$id);
         }
     }
 }

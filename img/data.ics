@@ -1,0 +1,17 @@
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20120517
+DTEND;VALUE=DATE:20120518
+DTSTAMP:20071003T171517Z
+ORGANIZER;CN=David:MAILTO:me@home.com
+UID:41r8cefge2pi3tmt7tt766baf4@google.com
+COMMENT;X-COMMENTER=MAILTO:me@home.com:<p>Hey Everyone: I think I have talked to everyone about setting up a brainstorm/initial planning meeting for a complete overhaul of the current FCAG site. I have penciled in a meeting for Tuesday April 10  @ 7:00 PM 8:30 PM.  Would you be able to attend?
+CLASS:PUBLIC
+CREATED:20070402T234821Z
+DESCRIPTION:Website Brainstorm Session
+LAST-MODIFIED:20070411T115625Z
+LOCATION:FCAG
+SEQUENCE:2
+STATUS:CONFIRMED
+SUMMARY:FCAG Website Meeting
+TRANSP:TRANSPARENT
+END:VEVENT
