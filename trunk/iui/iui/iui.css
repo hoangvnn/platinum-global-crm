@@ -307,7 +307,6 @@ fieldset > .row:last-child {
 }
 
 .row > label {
-    position: absolute;
     margin: 0 0 0 14px;
     line-height: 42px;
     font-weight: bold;

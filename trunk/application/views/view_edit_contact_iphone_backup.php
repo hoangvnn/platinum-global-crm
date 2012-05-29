@@ -6,7 +6,7 @@
     <title>Welcome to Platinum Global</title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
-    <meta name="apple-mobile-web-app-capable" content="yes" /> 
+    
     <link rel="icon" type="image/png" href="<?php echo site_url();?>iui/iui/iui-favicon.png">
     <link rel="apple-touch-icon" href="<?php echo site_url();?>iui/iui/iui-logo-touch-icon.png" />
     <link rel="stylesheet" href="<?php echo site_url();?>iui/iui/iui.css" type="text/css" />
@@ -16,7 +16,33 @@
         .panel p.normalText { text-align: left;  padding: 0 10px 0 10px; }
     </style>
      <script>(function(a,b,c){if(c in b&&b[c]){var d,e=a.location,f=/^(a|html)$/i;a.addEventListener("click",function(a){d=a.target;while(!f.test(d.nodeName))d=d.parentNode;"href"in d&&(d.href.indexOf("http")||~d.href.indexOf(e.host))&&(a.preventDefault(),e.href=d.href)},!1)}})(document,window.navigator,"standalone")</script>
-
+        <script type="application/x-javascript"> 
+     
+   addEventListener("load", function() 
+   { 
+   setTimeout(updateLayout, 0); 
+   }, false); 
+   
+   var currentWidth = 0; 
+   
+   function updateLayout() 
+   { 
+   if (window.innerWidth != currentWidth) 
+   { 
+   currentWidth = window.innerWidth; 
+   
+   var orient = currentWidth == 320 ? "profile" : "landscape"; 
+   document.body.setAttribute("orient", orient); 
+   setTimeout(function() 
+   { 
+   window.scrollTo(0, 1); 
+   }, 100); 
+   } 
+   } 
+   
+   setInterval(updateLayout, 100); 
+   
+   </script>
     </head>
 <body> 
         <div class="toolbar">
