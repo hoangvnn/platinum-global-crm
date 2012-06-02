@@ -70,7 +70,8 @@
                 <td class="panel">
                     <?php
                         $img_link = site_url().'img/'.$contact->picture;
-                        if (@fopen($img_link, 'r'))
+                        $url = getimagesize($img_link);
+                        if (is_array($url))
                         {
                             $img_link = site_url().'img/'.$contact->picture;
                         }
@@ -218,17 +219,40 @@
                     </fieldset>
                         <?php
                         }
-                        $text = 'SUMMARY:Christmas
-DTSTART;VALUE=DATE:01 04 2010
-DTEND;VALUE=DATE:02 04 2010';
                         ?>
                     
-                                    <fieldset>
+                    <?php
+                        if(isset($other_info) && is_array($other_info))
+                        {
+                    ?>
+                        <fieldset>
                         <div class="row" style="text-align: left;">
-                            <label style="color: navy; ">date</label>
-                            <a style="display: inline; background: none; padding-top: 2px;" href="<?php echo site_url().'img/data.ics'?>"><label style="color: navy; ">Click here for more company info</label></a>
+                            <?php
+                                foreach ($other_info as $key=>$value)
+                                {
+                            ?>
+                            <label style="color: navy; "><?php echo str_replace('_', '&nbsp;', $value->info_type);?></label>
+                            <a style="display: inline; background: none; padding-top: 2px;" ><?php echo $value->info_data;?></a>
+                            <br/>
+                            <?php
+                                }
+                            ?>
+                        </div>
+                        </fieldset>
+                    <?php
+                        }
+                        else
+                        { 
+                        ?>
+                    <fieldset>
+                        <div class="row" style="text-align: left;">
+                            <label style="color: navy; "></label>
+                            <a style="display: inline; background: none; padding-top: 2px;" href="<?php echo site_url().'contact/show_more_other_info/'.$contact->contact_id ;?>"><label style="color: navy; ">Click here for more other info</label></a>
                         </div>
                     </fieldset>
+                        <?php
+                        }
+                        ?>
                     
                              
                     <?php  

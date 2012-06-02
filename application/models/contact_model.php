@@ -17,33 +17,61 @@
             }
         }
         
-        function get_contact($id)
+        function get_contact($id, $agent = 'Apple iPhone')
         {
             $query_str = 'SELECT contacts.*, users.username FROM contacts, users WHERE contact_id = ? AND contacts.belong_to = users.user_id';
             $query = $this->db->query($query_str, array($id));
             if ($query->num_rows() == 1)
-                return $query->row(0);
+            {
+                if ($agent != 'Apple iPhone')
+                {
+                    return $query->row_array(0);         
+                }
+                else
+                {
+                    return $query->row(0);     
+                }   
+            }
+                
             else
                 return false;
         }
-        function get_contact_list()
+        function get_contact_list($agent = 'Apple iPhone')
         {
             $query_str = 'SELECT name, contact_id from contacts';
             $query = $this->db->query($query_str);
             if ($query->num_rows() >= 1)
-                return $query->result();
+            {
+                if ($agent != 'Apple iPhone')
+                {
+                    return $query->result_array();    
+                }
+                else
+                {
+                    return $query->result();    
+                }
+                 
+            }
             else
                 return false;    
         }
         
-        function search_contact($search)
+        function search_contact($search, $agent = 'Apple iPhone')
         {
             $query_str = 'SELECT name, contact_id from contacts where name like '.'\'%'.$this->db->escape_like_str($search).'%\'';
             $result = $this->db->query($query_str, array($search));  
             
             if ($result->num_rows() >= 1)
             {
-                return $result->result(); 
+                if ($agent != 'Apple iPhone')
+                {
+                    return $result->result_array();    
+                }
+                else
+                {
+                    return $result->result();    
+                }
+                 
             }
             else
             {
@@ -52,21 +80,51 @@
                 
         }
         
-        function show_personal_info($id)
+        function show_personal_info($id, $agent = 'Apple iPhone')
         {
             $check = $this->db->get_where('personal_info', array('contact_id' => $id));
             if ($check->num_rows() >= 1)
             {
-                return $check->result();    
+                if ($agent != 'Apple iPhone')
+                {
+                    return $check->result_array();    
+                }
+                else
+                {
+                    return $check->result();    
+                }
             } 
         }
 
-        function show_company_info($id)
+        function show_company_info($id, $agent = 'Apple iPhone')
         {
             $check = $this->db->get_where('company_info', array('contact_id' => $id));
             if ($check->num_rows() >= 1)
             {
-                return $check->result();    
+                if ($agent != 'Apple iPhone')
+                {
+                    return $check->result_array();    
+                }
+                else
+                {
+                    return $check->result();    
+                }    
+            } 
+        }
+        
+        function show_other_info($id, $agent = 'Apple iPhone')
+        {
+            $check = $this->db->get_where('other_info', array('contact_id' => $id));
+            if ($check->num_rows() >= 1)
+            {
+                if ($agent != 'Apple iPhone')
+                {
+                    return $check->result_array();    
+                }
+                else
+                {
+                    return $check->result();    
+                }    
             } 
         }
         

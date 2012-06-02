@@ -25,13 +25,12 @@ class Contact extends CI_Controller {
         if(!$this->session->userdata('logged_in'))
             redirect('user/login');
         
-        $data['list'] = $this->Contact_model->get_contact_list();
+        $data['list'] = $this->Contact_model->get_contact_list($this->session->userdata('agent'));
         
-        //foreach ($result as $row)
-//        {
-//            echo '<a href = "'.site_url() . 'contact/user/'.$row->contact_id.'">'.$row->name.'<br/>'.'</a>';
-//        }
-        $this->load->view('view_contacts_list_iphone', $data);
+        if($this->session->userdata('agent') == 'Apple iPhone')
+            $this->load->view('view_contacts_list_iphone', $data);
+        else
+            $this->load->view('view_contacts_list_ipad', $data);
         
 	}
     
@@ -42,8 +41,18 @@ class Contact extends CI_Controller {
 
         if ($id)
         {
-            $data['contact'] = $this->Contact_model->get_contact($id);
-            $this->load->view('view_contact_iphone', $data);    
+            $data['contact'] = $this->Contact_model->get_contact($id, $this->session->userdata('agent'));
+            
+            if($this->session->userdata('agent') == 'Apple iPhone')
+            {
+                
+                $this->load->view('view_contact_iphone', $data);    
+            }
+            else
+            {
+                $data['list'] = $this->Contact_model->get_contact_list($this->session->userdata('agent'));
+                $this->load->view('view_contacts_list_ipad', $data);     
+            }    
         }
         else
         {
@@ -170,10 +179,15 @@ class Contact extends CI_Controller {
             redirect('user/login');
             
         }
-        extract($this->input->post());
-        $data['list'] = $this->Contact_model->search_contact($search);
         
-        $this->load->view('view_contacts_list_iphone', $data);
+        extract($this->input->post());
+        
+        $data['list'] = $this->Contact_model->search_contact($search, $this->session->userdata('agent'));
+        
+        if($this->session->userdata('agent') == 'Apple iPhone')
+            $this->load->view('view_contacts_list_iphone', $data);
+        else
+            $this->load->view('view_contacts_list_ipad', $data);
            
     }
     
@@ -190,10 +204,20 @@ class Contact extends CI_Controller {
             
         } 
         
-        $data['contact'] = $this->Contact_model->get_contact($id);
-        $data['personal_info'] = $this->Contact_model->show_personal_info($id);
+        $data['contact'] = $this->Contact_model->get_contact($id, $this->session->userdata('agent'));
+        $data['personal_info'] = $this->Contact_model->show_personal_info($id, $this->session->userdata('agent'));
         
-        $this->load->view('view_contact_iphone', $data);
+        if($this->session->userdata('agent') == 'Apple iPhone')
+        {
+            
+            $this->load->view('view_contact_iphone', $data);    
+        }
+        else
+        {
+            $data['list'] = $this->Contact_model->get_contact_list($this->session->userdata('agent'));
+            $this->load->view('view_contacts_list_ipad', $data);     
+        }  
+        
            
     }
     
@@ -210,12 +234,50 @@ class Contact extends CI_Controller {
             
         } 
         
-        $data['contact'] = $this->Contact_model->get_contact($id);
-        $data['company_info'] = $this->Contact_model->show_company_info($id);
+        $data['contact'] = $this->Contact_model->get_contact($id, $this->session->userdata('agent'));
+        $data['company_info'] = $this->Contact_model->show_company_info($id,  $this->session->userdata('agent'));
         
-        $this->load->view('view_contact_iphone', $data);
+        if($this->session->userdata('agent') == 'Apple iPhone')
+        {
+            
+            $this->load->view('view_contact_iphone', $data);    
+        }
+        else
+        {
+            $data['list'] = $this->Contact_model->get_contact_list($this->session->userdata('agent'));
+            $this->load->view('view_contacts_list_ipad', $data);     
+        }  
            
-    }     
+    }
+    
+    function show_more_other_info($id)
+    {
+        if ($id == '' || $id == 0)
+        {
+            redirect('contact');
+        }
+        
+        if(!$this->session->userdata('logged_in'))
+        {
+            redirect('user/login');
+            
+        } 
+        
+        $data['contact'] = $this->Contact_model->get_contact($id, $this->session->userdata('agent'));
+        $data['other_info'] = $this->Contact_model->show_other_info($id, $this->session->userdata('agent'));
+        
+        if($this->session->userdata('agent') == 'Apple iPhone')
+        {
+            
+            $this->load->view('view_contact_iphone', $data);    
+        }
+        else
+        {
+            $data['list'] = $this->Contact_model->get_contact_list($this->session->userdata('agent'));
+            $this->load->view('view_contacts_list_ipad', $data);     
+        }  
+  
+    }       
 }
 
 /* End of file user.php */
