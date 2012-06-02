@@ -60,8 +60,9 @@
     </div>
     
     <div id="home" class="panel" selected="true"> 
-        <fieldset><p class="normalText">Use the form below to login to our site</p> </fieldset>
-        <?php echo form_open(site_url() . 'user/login', array('class' => 'panel')); /**<img src="<?php echo base_url()?>/img/image001.jpg" border="1" width="395" />*/ ?>
+        <fieldset><p class="normalText">Use the form below to login to 
+        <? if ($from == 'admin') echo 'admin page'; else echo 'our site'; ?></p> </fieldset>
+        <?php echo form_open(site_url() . 'user/login/'.$from, array('class' => 'panel')); /**<img src="<?php echo base_url()?>/img/image001.jpg" border="1" width="395" />*/ ?>
                 <h2>Username:
                     <?php echo form_input(array('id' => 'username', 'name' => 'username', 'size' => 20, 'style' => 'font-size:20px')); ?>
                 </h2>     

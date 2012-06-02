@@ -26,8 +26,30 @@
             } 
             else
             {
-                echo 'khong co insert duoc';
+                return false;
             }
+        }
+        
+        function check_password($user_id, $password, $new_pass)
+        {
+            $query_str = 'SELECT user_id FROM users WHERE user_id = ? AND password = ?';  
+            $result = $this->db->query($query_str, array($user_id, $password));  
+            
+            if ($result->num_rows() == 1)
+            {
+               $data = array(
+               'password' => $new_pass,
+               );
+
+               $this->db->where('user_id', $user_id);
+               $this->db->update('users', $data);
+               return $this->db->affected_rows();   
+            }
+            else
+            {
+                return false;    
+            }
+
         }
         
     }    
