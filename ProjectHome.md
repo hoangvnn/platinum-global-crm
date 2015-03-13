@@ -1,0 +1,1 @@
+The CRM system for Platinum Global Co. Ltd, Vietnam.
